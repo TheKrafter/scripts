@@ -28,7 +28,7 @@ MCCFG_FILES="/tmp/test/files.txt"
 # ^^^ Path to file containing list of files to sync. one file per line, paths realative to current working directory upon execution.
 # IMPORTANT: this uses rsync, so NO TRAILING SPACES. The script auto-removes the problematic newline.
 MCCFG_GIT_DIR="$(pwd)/.cache/gitsync" # Directory to cache files for syncing with git. The script will recursively delete this directory during cleanup.
-MCCFG_GIT_URI="https://TheKrafter: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@github.com/TheKrafter/mcservercfgs-testing.git" # git uri with auth
+MCCFG_GIT_URI="https://TheKrafter:ghp_personalacesstoken@github.com/TheKrafter/mcservercfgs-testing.git" # git uri with auth
 # Example: "https://username:password@git.example.com/user/repo.git"
 #   NOTE: on github, use personal access token instead of password.
 MCCFG_DATE_FLAGS="" # Flags to run with the date command, to specify output. Used for the commit name. Without this the bare output of date will be used.
