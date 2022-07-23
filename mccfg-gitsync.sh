@@ -24,11 +24,11 @@ alias fizz="echo 'Fizzdev is a catboy.'"
 ####
 ##  VARIABLES
 # TO EDIT:
-MCCFG_FILES="/tmp/test/files.txt"
+MCCFG_FILES="./files.txt"
 # ^^^ Path to file containing list of files to sync. one file per line, paths realative to current working directory upon execution.
 # IMPORTANT: this uses rsync, so NO TRAILING SPACES. The script auto-removes the problematic newline.
-MCCFG_GIT_DIR="$(pwd)/.cache/gitsync" # Directory to cache files for syncing with git. The script will recursively delete this directory during cleanup.
-MCCFG_GIT_URI="https://TheKrafter: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@github.com/TheKrafter/mcservercfgs-testing.git" # git uri with auth
+MCCFG_GIT_DIR="./.cache/gitsync" # Directory to cache files for syncing with git. The script will recursively delete this directory during cleanup.
+MCCFG_GIT_URI="https://TheKrafter:REDACTED@github.com/TheKrafter/mcservercfgs-testing.git" # git uri with auth
 # Example: "https://username:password@git.example.com/user/repo.git"
 #   NOTE: on github, use personal access token instead of password.
 MCCFG_DATE_FLAGS="" # Flags to run with the date command, to specify output. Used for the commit name. Without this the bare output of date will be used.
@@ -56,7 +56,7 @@ sed -z 's/\n$//' $MCCFG_FILES
 echo "./mccfg-gitsync.sh"
 echo "Copyright (c) 2022 Krafter, Published under the MIT License"
 echo "Cloning from git repo $MCCFG_GIT_REPONAME..."
-git -C $MCCFG_GIT_DIR clone $MCCFG_GIT_URI
+git -C $MCCFG_GIT_DIR clone "$MCCFG_GIT_URI"
 
 # ACTION: pull
 if [ "$ACTION" = "pull" ];
@@ -71,7 +71,7 @@ fi
 if [ "$ACTION" = "push" ];
 then
     echo "Sending config files to git repo dir..."
-    rsync -I --files-from=$MCCFG_FILES $WORKINGDIR/ $MCCFG_GIT_DIR/$MCCFG_GIT_REPONAME/
+    rsync -I --checksum --files-from=$MCCFG_FILES $WORKINGDIR/ $MCCFG_GIT_DIR/$MCCFG_GIT_REPONAME/
     echo "Done."
     git -C $MCCFG_GIT_DIR/$MCCFG_GIT_REPONAME/ add -A
     git -C $MCCFG_GIT_DIR/$MCCFG_GIT_REPONAME/ commit -m "$MCCFG_COMMIT_MSG $(date $MCCFG_DATE_FLAGS)"
@@ -80,6 +80,6 @@ fi
 
 # Clean up
 echo "Cleaning up..."
-rm -r --interactive=never $MCCFG_GIT_DIR/ $WORKINGDIR/.git/
+rm -r --interactive=never $MCCFG_GIT_DIR/
 echo "Done."
 echo
